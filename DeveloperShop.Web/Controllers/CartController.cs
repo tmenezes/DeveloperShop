@@ -77,12 +77,12 @@ namespace DeveloperShop.Web.Controllers
         }
 
         [HttpPut]
-        [Route("api/cart/applyDiscount/{couponKey:alpha}")]
-        public IHttpActionResult ApplyDiscount(string couponKey)
+        [Route("api/cart/applyDiscount")]
+        public IHttpActionResult ApplyDiscount([FromBody]CartItemRequestData cartItemRequestData)
         {
             var cart = CartHolder.GetCart(USER_KEY);
 
-            var coupon = _discountCouponRepository.GetCouponByKey(couponKey);
+            var coupon = _discountCouponRepository.GetCouponByKey(cartItemRequestData.CouponKey);
             if (coupon == null)
             {
                 return BadRequest("Coupon does not exists");

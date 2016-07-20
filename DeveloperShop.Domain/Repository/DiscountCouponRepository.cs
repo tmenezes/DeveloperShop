@@ -13,7 +13,7 @@ namespace DeveloperShop.Domain.Repository
             {
                 new DiscountCoupon("SHIPIT")
                 {
-                    Description = "Cupom para 10% de desconto",
+                    Description = "A 10% discount coupon",
                     DiscountPercentage = 0.1,
                 }
             };

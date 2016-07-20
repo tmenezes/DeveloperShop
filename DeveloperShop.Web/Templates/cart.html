@@ -34,28 +34,36 @@
             </tbody>
         </table>
     </div>
-    <div class="totalizer row">
+    <div class="totalizer row" style="padding-top: 40px">
         <div class="col-sm-6">
             <div class="row">
                 <table class="table">
                     <tbody>
-                        <tr class="total">
+                        <tr class="total" ng-show="hasItems">
                             <td>
-                                <span class="vcenter">Cupon de Desconto</span>
+                                <span class="vcenter">Discount Coupon</span>
                             </td>
                             <td>
                                 <form class="form-inline" role="form">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="desconto" placeholder="digite seu cupon aqui" ng-model="cupomDesconto" />
-                                        <button class="btn btn-primary">Aplicar Desconto</button>
-                                        <div class="hide">Sem desconto</div>
+                                        <input type="text" class="form-control" name="discount" placeholder="type your coupun here" ng-model="coupon" />
+                                        <button class="btn btn-primary" ng-click="applyDiscount()">Apply Discount</button>
+                                        <div class="hide text-danger">Invalid coupon</div>
                                     </div>
                                 </form>
                             </td>
                         </tr>
+                        <tr class="total" ng-show="hasDiscount">
+                            <td>Total Items Price</td>
+                            <td>{{cart.TotalPrice | currency}}</td>
+                        </tr>
+                        <tr class="total" ng-show="hasDiscount">
+                            <td>Discount</td>
+                            <td><strong class="text-success">{{cart.Discount | currency}} - {{cart.Coupon.Key}}: {{cart.Coupon.Description}}</strong></td>
+                        </tr>
                         <tr class="total">
                             <td>Total</td>
-                            <td><strong>{{cart.TotalPrice | currency}}</strong></td>
+                            <td><strong>{{cart.CartPrice | currency}}</strong></td>
                         </tr>
                     </tbody>
                 </table>

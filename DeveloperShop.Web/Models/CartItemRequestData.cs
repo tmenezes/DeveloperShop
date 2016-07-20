@@ -4,5 +4,6 @@
     {
         public int DeveloperId { get; set; }
         public int AmountOfHours { get; set; }
+        public string CouponKey { get; set; }
     }
 }

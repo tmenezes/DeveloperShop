@@ -32,7 +32,13 @@ devShopApp.factory('AppApi', function ($resource) {
                 method: 'GET'
             }
         }),
-        Cart: $resource('api/cart/:id', { id: '@id' })
+        Cart: $resource('api/cart/:id', { id: '@id' },
+        {
+            applyDiscount: {
+                url: 'api/cart/applyDiscount/:coupon',
+                method: 'PUT'
+            }
+        })
     };
 });
 
@@ -78,6 +84,10 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
     }
     else {
         $scope.cart = AppApi.Cart.get();
+        $scope.cart.$promise.then(function (cart) {
+            $scope.hasItems = cart.Items.length > 0;
+            updateCouponVariables();
+        });
     }
 
     // actions
@@ -101,10 +111,40 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
         return false;
     }
 
+    $scope.applyDiscount = function () {
+
+        $scope.couponApplied = false;
+
+        if ($scope.coupon === "") return false;
+
+        var data = { couponKey: $scope.coupon };
+        var response = AppApi.Cart.applyDiscount(data);
+
+        response.$promise.then(function (cart) {
+            $scope.cart = cart;
+            updateCouponVariables();
+        }, function (failureResponse) {
+            console.log(failureResponse);
+            updateCouponVariables();
+        });
+
+        return false;
+    }
+
+
+    var updateCouponVariables = function () {
+        $scope.hasDiscount = $scope.cart.Coupon != null && $scope.hasItems;
+        $scope.couponApplied = $scope.hasDiscount && $scope.cart.Coupon.Key === $scope.coupon;
+        $scope.coupon = "";
+    }
+
     var navigateAfterCartOperation = function (resource) {
 
         resource.$promise.then(function (cart) {
+
             var hasItems = cart != null && cart.Items.length > 0;
+            $scope.hasItems = hasItems;
+
             if (hasItems) {
                 $scope.cart = cart;
                 $location.path("/cart");
@@ -115,5 +155,4 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
 
         return false;
     }
-
 });
