@@ -83,10 +83,36 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
     // actions
     $scope.addToCart = function () {
 
-        var postData = { DeveloperId: $scope.devId, AmountOfHours: $scope.hours };
-        var response = AppApi.Cart.save(postData);
+        var data = { DeveloperId: $scope.devId, AmountOfHours: $scope.hours };
+        var response = AppApi.Cart.save(data);
 
-        $location.path("/cart");
+        navigateAfterCartOperation(response);
+
+        return false;
+    }
+
+    $scope.removeFromCart = function (developerId) {
+
+        var data = { DeveloperId: developerId };
+        var response = AppApi.Cart.delete(data);
+
+        navigateAfterCartOperation(response);
+
+        return false;
+    }
+
+    var navigateAfterCartOperation = function (resource) {
+
+        resource.$promise.then(function (cart) {
+            var hasItems = cart != null && cart.Items.length > 0;
+            if (hasItems) {
+                $scope.cart = cart;
+                $location.path("/cart");
+            }
+            else
+                $location.path("/");
+        });
+
         return false;
     }
 

@@ -29,7 +29,7 @@
                     <td>{{item.Developer.Price}}</td>
                     <td>{{item.AmountOfHours}}</td>
                     <td>{{item.TotalPrice}}</td>
-                    <td><button class="btn btn-danger pull-right">Remove</button></td>
+                    <td><button class="btn btn-danger pull-right" ng-click="removeFromCart(item.Developer.Id)">Remove</button></td>
                 </tr>
             </tbody>
         </table>

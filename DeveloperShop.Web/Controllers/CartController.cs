@@ -43,11 +43,11 @@ namespace DeveloperShop.Web.Controllers
         }
 
         // DELETE: api/Cart/
-        public IHttpActionResult Delete(CartItemRequestData cartItemRequestData)
+        public IHttpActionResult Delete(int developerId)
         {
             var cart = CartHolder.GetCart(USER_KEY);
 
-            var developer = _developerRepository.GetDeveloper(cartItemRequestData.DeveloperId);
+            var developer = _developerRepository.GetDeveloper(developerId);
             if (developer == null)
             {
                 return BadRequest("Developer was not added on the cart");
