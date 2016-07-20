@@ -1,50 +1,51 @@
-﻿<div class="row">
-    <h2>Add a developer</h2>
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <input type="text" placeholder="GitHub Username" class="form-control">
-        </div>
-        <div class="form-group">
-            <input type="text" placeholder="Price" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">Add</button>
-    </form>
-</div>
-<div class="cart row">
-    <h2>Cart</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Price</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="product">
-                <td>brenoc</td>
-                <td>$224</td>
-                <td><button class="btn btn-danger pull-right">Remove</button></td>
-            </tr>
-            <tr class="product">
-                <td>firstdoit</td>
-                <td>$416</td>
-                <td><button class="btn btn-danger pull-right">Remove</button></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="totalizer row">
-    <div class="col-sm-5">
-        <div class="row">
-            <table class="table">
-                <tbody>
-                    <tr class="total">
-                        <td>Total</td>
-                        <td>$640</td>
-                    </tr>
-                </tbody>
-            </table>
+﻿<div>
+    <div class="cart row">
+        <h2>Cart</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 40%">Username</th>
+                    <th style="width: 15%">Price</th>
+                    <th style="width: 15%">Hours</th>
+                    <th style="width: 15%">Total Price</th>
+                    <th style="width: 14%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="product" ng-repeat="(key, item) in cart.Items">
+                    <td>
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="http://github.com/" target="_blank">
+                                    <img src="{{item.Developer.ImageUrl}}" width="48" height="48" alt="{{user.UserName}}" data-toggle="tooltip" data-placement="left" title="{{item.Developer.UserName}}" />
+                                </a>
+                            </div>
+                            <div class="media-body media-jogador">
+                                <span class="text-muted">{{item.Developer.UserName}}</span><br />
+                                <a href="#"><strong>{{item.Developer.FullName}}</strong></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{item.Developer.Price}}</td>
+                    <td>{{item.AmountOfHours}}</td>
+                    <td>{{item.TotalPrice}}</td>
+                    <td><button class="btn btn-danger pull-right">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="totalizer row">
+        <div class="col-sm-5">
+            <div class="row">
+                <table class="table">
+                    <tbody>
+                        <tr class="total">
+                            <td>Total</td>
+                            <td>{{cart.TotalPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

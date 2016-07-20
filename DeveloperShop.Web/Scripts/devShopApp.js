@@ -76,7 +76,11 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
         $scope.developer = AppApi.Developers.get({ id: $scope.devId });
         $scope.hours = 8;
     }
+    else {
+        $scope.cart = AppApi.Cart.get();
+    }
 
+    // actions
     $scope.addToCart = function () {
 
         var postData = { DeveloperId: $scope.devId, AmountOfHours: $scope.hours };
