@@ -26,22 +26,36 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{item.Developer.Price}}</td>
+                    <td>{{item.Developer.Price | currency}}</td>
                     <td>{{item.AmountOfHours}}</td>
-                    <td>{{item.TotalPrice}}</td>
+                    <td>{{item.TotalPrice | currency}}</td>
                     <td><button class="btn btn-danger pull-right" ng-click="removeFromCart(item.Developer.Id)">Remove</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="totalizer row">
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             <div class="row">
                 <table class="table">
                     <tbody>
                         <tr class="total">
+                            <td>
+                                <span class="vcenter">Cupon de Desconto</span>
+                            </td>
+                            <td>
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="desconto" placeholder="digite seu cupon aqui" ng-model="cupomDesconto" />
+                                        <button class="btn btn-primary">Aplicar Desconto</button>
+                                        <div class="hide">Sem desconto</div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="total">
                             <td>Total</td>
-                            <td>{{cart.TotalPrice}}</td>
+                            <td><strong>{{cart.TotalPrice | currency}}</strong></td>
                         </tr>
                     </tbody>
                 </table>

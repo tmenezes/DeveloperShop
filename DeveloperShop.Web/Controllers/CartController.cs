@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Web.Http;
 using DeveloperShop.Domain;
 using DeveloperShop.Domain.Repository;
 using DeveloperShop.Web.Models;
@@ -9,15 +10,17 @@ namespace DeveloperShop.Web.Controllers
     {
         private const string USER_KEY = "KEY"; // TODO: implementar obtencao de token do usuario
         private readonly IDeveloperRepository _developerRepository;
+        private readonly IDiscountCouponRepository _discountCouponRepository;
 
         public CartController()
-            : this(new DeveloperRepository())
+            : this(new DeveloperRepository(), new DiscountCouponRepository())
         {
         }
 
-        public CartController(IDeveloperRepository developerRepository)
+        public CartController(IDeveloperRepository developerRepository, IDiscountCouponRepository discountCouponRepository)
         {
             _developerRepository = developerRepository;
+            _discountCouponRepository = discountCouponRepository;
         }
 
 
@@ -25,6 +28,20 @@ namespace DeveloperShop.Web.Controllers
         public Cart Get()
         {
             return CartHolder.GetCart(USER_KEY);
+        }
+
+        // GET: api/Cart/:id
+        public IHttpActionResult Get(int id)
+        {
+            var cart = CartHolder.GetCart(USER_KEY);
+            var item = cart.Items.FirstOrDefault(i => i.Developer.Id == id);
+
+            if (item == null)
+            {
+                return BadRequest("Cart item does not exists");
+            }
+
+            return Ok(item);
         }
 
         // POST: api/Cart
@@ -39,21 +56,39 @@ namespace DeveloperShop.Web.Controllers
             }
 
             cart.AddItem(developer, cartItemRequestData.AmountOfHours);
-            return Ok(cart);
+            var itemUrl = $"api/cart/{developer.Id}";
+
+            return Created(itemUrl, cart);
         }
 
         // DELETE: api/Cart/
-        public IHttpActionResult Delete(int developerId)
+        public IHttpActionResult Delete(int id)
         {
             var cart = CartHolder.GetCart(USER_KEY);
 
-            var developer = _developerRepository.GetDeveloper(developerId);
+            var developer = _developerRepository.GetDeveloper(id);
             if (developer == null)
             {
                 return BadRequest("Developer was not added on the cart");
             }
 
             cart.RemoveItem(developer);
+            return Ok(cart);
+        }
+
+        [HttpPut]
+        [Route("api/cart/applyDiscount/{couponKey:alpha}")]
+        public IHttpActionResult ApplyDiscount(string couponKey)
+        {
+            var cart = CartHolder.GetCart(USER_KEY);
+
+            var coupon = _discountCouponRepository.GetCouponByKey(couponKey);
+            if (coupon == null)
+            {
+                return BadRequest("Coupon does not exists");
+            }
+
+            cart.ApplyDiscount(coupon);
             return Ok(cart);
         }
     }

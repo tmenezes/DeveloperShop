@@ -93,7 +93,7 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
 
     $scope.removeFromCart = function (developerId) {
 
-        var data = { DeveloperId: developerId };
+        var data = { id: developerId };
         var response = AppApi.Cart.delete(data);
 
         navigateAfterCartOperation(response);

@@ -39,7 +39,7 @@
                     <td>{{dev.Repositories}}</td>
                     <td>{{dev.Followers}}</td>
                     <td>{{dev.Following}}</td>
-                    <td>$ {{dev.Price}}</td>
+                    <td>{{dev.Price | currency}}</td>
                     <td><button class="btn btn-success pull-right" ng-click="addNewItem(dev.Id)">Add to cart</button></td>
                 </tr>
             </tbody>

@@ -45,6 +45,7 @@ namespace DeveloperShop.Web.Controllers
             return Ok(developer);
         }
 
+        // GET: api/Developer/tmenezes
         public IHttpActionResult Get([FromUri] string name)
         {
             var developer = _developerRepository.GetDeveloper(name);
@@ -78,7 +79,6 @@ namespace DeveloperShop.Web.Controllers
 
             return NotFound();
         }
-
 
         // POST: api/Developer
         public void Post([FromBody]string value)

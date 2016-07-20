@@ -13,6 +13,7 @@ namespace DeveloperShop.Domain
         {
             get { return _items; }
         }
+        public DiscountCoupon Coupon { get; set; }
         public decimal TotalPrice { get; set; }
         public decimal Discount { get; set; }
         public decimal CartPrice { get; set; }
@@ -44,10 +45,22 @@ namespace DeveloperShop.Domain
             UpdateCartPrices();
         }
 
+        public void ApplyDiscount(DiscountCoupon coupon)
+        {
+            var actualCouponPercentage = this.Coupon?.DiscountPercentage ?? 0d;
+
+            if (coupon.DiscountPercentage > actualCouponPercentage)
+            {
+                Coupon = coupon;
+                UpdateCartPrices();
+            }
+        }
+
 
         private void UpdateCartPrices()
         {
             TotalPrice = Items.Sum(i => i.TotalPrice);
+            Discount = TotalPrice * (decimal)(Coupon?.DiscountPercentage ?? 0);
             CartPrice = TotalPrice - Discount;
         }
     }

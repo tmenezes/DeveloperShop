@@ -43,9 +43,12 @@
     <Compile Include="Cart.cs" />
     <Compile Include="CartItem.cs" />
     <Compile Include="Developer.cs" />
+    <Compile Include="DiscountCoupon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DiscountCouponRepository.cs" />
     <Compile Include="Repository\DeveloperRepository.cs" />
     <Compile Include="Repository\IDeveloperRepository.cs" />
+    <Compile Include="Repository\IDiscountCouponRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
