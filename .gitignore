@@ -1,0 +1,15 @@
+[Bb]in
+[Oo]bj
+*resharper.user
+build/
+[Hh]elp/
+*.suo
+*.sln.cache
+_ReSharper.*/
+*.user
+packages
+packages/*/
+*.ncrunchsolution
+*.*crunch*
+Testresults
+.vs/
