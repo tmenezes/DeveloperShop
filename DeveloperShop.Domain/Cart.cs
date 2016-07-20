@@ -6,10 +6,10 @@ namespace DeveloperShop.Domain
 {
     public class Cart
     {
-        private readonly IList<Developer> _items;
+        private readonly IList<CartItem> _items;
 
         public string Id { get; set; }
-        public IEnumerable<Developer> Items
+        public IEnumerable<CartItem> Items
         {
             get { return _items; }
         }
@@ -20,23 +20,23 @@ namespace DeveloperShop.Domain
         public Cart()
         {
             Id = Guid.NewGuid().ToString();
-            _items = new List<Developer>();
+            _items = new List<CartItem>();
         }
 
 
-        public void AddItem(Developer developer)
+        public void AddItem(Developer developer, int amountOfHours)
         {
-            var alreadyAdded = _items.Any(d => d.UserName == developer.UserName);
+            var alreadyAdded = _items.Any(d => d.Developer.UserName == developer.UserName);
             if (alreadyAdded)
                 return;
 
-            _items.Add(developer);
+            _items.Add(new CartItem(developer, amountOfHours));
             UpdateCartPrices();
         }
 
         public void RemoveItem(Developer developer)
         {
-            var developerAdded = _items.FirstOrDefault(d => d.UserName == developer.UserName);
+            var developerAdded = _items.FirstOrDefault(d => d.Developer.UserName == developer.UserName);
             if (developerAdded == null)
                 return;
 
@@ -47,7 +47,7 @@ namespace DeveloperShop.Domain
 
         private void UpdateCartPrices()
         {
-            TotalPrice = Items.Sum(d => d.Price);
+            TotalPrice = Items.Sum(i => i.TotalPrice);
             CartPrice = TotalPrice - Discount;
         }
     }

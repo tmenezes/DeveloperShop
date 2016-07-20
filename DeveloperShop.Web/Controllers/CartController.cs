@@ -38,7 +38,7 @@ namespace DeveloperShop.Web.Controllers
                 return BadRequest("Developer does not exists");
             }
 
-            cart.AddItem(developer);
+            cart.AddItem(developer, cartItemRequestData.AmountOfHours);
             return Ok(cart);
         }
 

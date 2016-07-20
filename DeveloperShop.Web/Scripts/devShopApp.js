@@ -1,7 +1,7 @@
-﻿//Define an angular module for our app
+﻿// define an angular module for our app
 var devShopApp = angular.module('devShopApp', ['ngRoute', 'ngResource']);
 
-//Define Routing for app
+// define Routing for app
 devShopApp.config(function ($routeProvider) {
     $routeProvider.
       when('/', {
@@ -12,46 +12,43 @@ devShopApp.config(function ($routeProvider) {
           templateUrl: 'Templates/cart.html',
           controller: 'CartController'
       }).
+      when('/cart/addingItem/:devId', {
+          templateUrl: 'Templates/addingToCart.html',
+          controller: 'CartController'
+      }).
       otherwise({
           redirectTo: '/'
       });
 });
 
-//devShopApp.factory('Developers', ['$resource', function ($resource) {
-//    return $resource('/developers/:id', null,
-//        {
-//            getFromGithub: {
-//                url: '/developers/fromGithub/:query',
-//                method: 'GET'
-//                //params: {
-//                //    query: '@query'
-//                //}
-//            }
-//        });
-//}]);
+// factories
+devShopApp.factory('AppApi', function ($resource) {
+
+    return {
+        Developers: $resource('api/developers/:id', { id: '@id' },
+        {
+            getFromGithub: {
+                url: 'api/developers/fromGithub/:query',
+                method: 'GET'
+            }
+        }),
+        Cart: $resource('api/cart/:id', { id: '@id' })
+    };
+});
 
 
+// controllers
+devShopApp.controller('DevelopersController', function ($scope, $resource, AppApi, $location) {
 
-devShopApp.controller('DevelopersController', function ($scope, $resource) {
-
-    var Developers = $resource('api/developers/:id', { id: '@id' }, {
-        getFromGithub: {
-            url: 'api/developers/fromGithub/:query',
-            method: 'GET'
-            //params: {
-            //    query: '@query'
-            //}
-        }
-    });
-
-    $scope.developers = Developers.query();
+    $scope.developers = AppApi.Developers.query();
     $scope.developerUsername = "";
 
+    // actions
     $scope.searchDeveloperOnGithub = function () {
 
         if ($scope.developerUsername === "") return false;
 
-        var dev = Developers.getFromGithub({ query: $scope.developerUsername });
+        var dev = AppApi.Developers.getFromGithub({ query: $scope.developerUsername });
         if (dev != null) {
             $scope.developers.push(dev);
             $scope.developerUsername = "";
@@ -62,11 +59,31 @@ devShopApp.controller('DevelopersController', function ($scope, $resource) {
 
         return false;
     }
+
+    $scope.addNewItem = function (developerId) {
+
+        $location.path("/cart/addingItem/" + developerId);
+        return false;
+    }
+
 });
 
+devShopApp.controller('CartController', function ($scope, $resource, $routeParams, $location, AppApi) {
 
-devShopApp.controller('CartController', function ($scope) {
+    $scope.devId = $routeParams.devId;
 
-    $scope.message = 'This is Show orders screen';
+    if ($scope.devId > 0) {
+        $scope.developer = AppApi.Developers.get({ id: $scope.devId });
+        $scope.hours = 8;
+    }
+
+    $scope.addToCart = function () {
+
+        var postData = { DeveloperId: $scope.devId, AmountOfHours: $scope.hours };
+        var response = AppApi.Cart.save(postData);
+
+        $location.path("/cart");
+        return false;
+    }
 
 });
