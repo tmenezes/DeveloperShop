@@ -2,7 +2,6 @@
 [Oo]bj
 *resharper.user
 build/
-[Hh]elp/
 *.suo
 *.sln.cache
 _ReSharper.*/
