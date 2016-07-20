@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace DeveloperShop.Web
 {
@@ -19,6 +18,12 @@ namespace DeveloperShop.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/devShopApp").Include(
+                      "~/Scripts/angular.js",
+                      "~/Scripts/angular-route.js",
+                      "~/Scripts/angular-resource.js",
+                      "~/Scripts/devShopApp.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

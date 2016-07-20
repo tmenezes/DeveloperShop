@@ -1,0 +1,48 @@
+﻿<div ng-controller="DevelopersController">
+    <div class="row">
+        <h2>Search a developer</h2>
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <input type="text" placeholder="GitHub Username" class="form-control" ng-model="developerUsername">
+            </div>
+            <button type="submit" class="btn btn-info" ng-click="searchDeveloperOnGithub()">Search on GitHub</button>
+        </form>
+    </div>
+    <div class="devs row">
+        <h2>Developers</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 30%">Username</th>
+                    <th style="width: 12%">Repos</th>
+                    <th style="width: 12%">Followers</th>
+                    <th style="width: 12%">Following</th>
+                    <th style="width: 12%">Price</th>
+                    <th style="width: 12%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="product" ng-repeat="(key, dev) in developers">
+                    <td>
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="http://github.com/" target="_blank">
+                                    <img src="{{dev.ImageUrl}}" width="48" height="48" alt="{{user.UserName}}" data-toggle="tooltip" data-placement="left" title="{{dev.UserName}}" />
+                                </a>
+                            </div>
+                            <div class="media-body media-jogador">
+                                <span class="text-muted">{{dev.UserName}}</span><br />
+                                <a href="#"><strong>{{dev.FullName}}</strong></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{dev.Repositories}}</td>
+                    <td>{{dev.Followers}}</td>
+                    <td>{{dev.Following}}</td>
+                    <td>$ {{dev.Price}}</td>
+                    <td><button class="btn btn-success pull-right">Add to cart</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

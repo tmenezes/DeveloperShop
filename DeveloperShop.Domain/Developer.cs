@@ -34,7 +34,8 @@ namespace DeveloperShop.Domain
             var experienceFactor = (decimal)(experienceYears / 10) + 1;
 
 
-            Price = (Repositories * experienceFactor) + (Followers * 0.1m) + (Following * 0.05m);
+            var price = (Repositories * experienceFactor) + (Followers * 0.1m) + (Following * 0.05m);
+            Price = Math.Round(price, 2);
         }
     }
 }
