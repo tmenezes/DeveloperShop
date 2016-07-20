@@ -48,7 +48,7 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="discount" placeholder="type your coupun here" ng-model="coupon" />
                                         <button class="btn btn-primary" ng-click="applyDiscount()">Apply Discount</button>
-                                        <div class="hide text-danger">Invalid coupon</div>
+                                        <div class="text-danger" ng-show="invalidCoupon">Invalid coupon</div>
                                     </div>
                                 </form>
                             </td>

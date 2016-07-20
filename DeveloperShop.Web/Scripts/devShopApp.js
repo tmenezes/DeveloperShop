@@ -113,7 +113,7 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
 
     $scope.applyDiscount = function () {
 
-        $scope.couponApplied = false;
+        $scope.invalidCoupon = false;
 
         if ($scope.coupon === "") return false;
 
@@ -124,7 +124,7 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
             $scope.cart = cart;
             updateCouponVariables();
         }, function (failureResponse) {
-            console.log(failureResponse);
+            $scope.invalidCoupon = true; // probably 404 or 400 request
             updateCouponVariables();
         });
 
@@ -134,7 +134,6 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
 
     var updateCouponVariables = function () {
         $scope.hasDiscount = $scope.cart.Coupon != null && $scope.hasItems;
-        $scope.couponApplied = $scope.hasDiscount && $scope.cart.Coupon.Key === $scope.coupon;
         $scope.coupon = "";
     }
 
