@@ -33,6 +33,11 @@ devShopApp.factory('AppApi', ['$resource', function ($resource) {
             getFromGithub: {
                 url: 'api/developers/fromGithub/:query',
                 method: 'GET'
+            },
+            getFromGithubOrganization: {
+                url: 'api/developers/fromGithubOrganization/:query',
+                method: 'GET',
+                isArray: true
             }
         }),
         Cart: $resource('api/cart/:id', { id: '@id' },
@@ -54,21 +59,42 @@ devShopApp.factory('AppApi', ['$resource', function ($resource) {
 devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', '$location', function ($scope, $resource, AppApi, $location) {
 
     $scope.developers = AppApi.Developers.query();
-    $scope.developerUsername = "";
+    $scope.searchKey = "";
 
     // actions
     $scope.searchDeveloperOnGithub = function () {
 
-        if ($scope.developerUsername === "") return false;
+        if ($scope.searchKey === "") return false;
 
-        var dev = AppApi.Developers.getFromGithub({ query: $scope.developerUsername });
-        if (dev != null) {
+        var resourceDev = AppApi.Developers.getFromGithub({ query: $scope.searchKey });
+
+        resourceDev.$promise.then(function (response) {
+            var dev = response.data;
             $scope.developers.push(dev);
-            $scope.developerUsername = "";
-        }
-        else {
-            alert("Developer was not found.");
-        }
+            $scope.searchKey = "";
+        }, function (failureResponse) {
+            if (failureResponse.status === 500) {
+                alert("Internal Server Error. " + failureResponse.data.ExceptionMessage);
+            } else {
+                alert("Developer was not found.");
+            }
+        });
+
+        return false;
+    }
+
+    $scope.searchOnGithubByOrganization = function () {
+
+        if ($scope.organization === "") return false;
+
+        var resource = AppApi.Developers.getFromGithubOrganization({ query: $scope.searchKey });
+        resource.$promise.then(function (response) {
+            console.log(resource);
+            console.log(response);
+            //alert("Developer(s) found: " + response.Items.length);
+            $scope.developers = AppApi.Developers.query(); // update developers list
+            $scope.searchKey = "";
+        });
 
         return false;
     }

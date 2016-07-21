@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DeveloperShop.Domain;
@@ -61,46 +62,61 @@ namespace DeveloperShop.Web.Controllers
         [Route("api/developers/fromGithub/{username:alpha}")]
         public async Task<IHttpActionResult> GetFromGitHub(string username)
         {
-            var developer = _developerRepository.GetDeveloper(username);
-
-            if (developer != null)
+            try
             {
-                return Ok(developer);
+                var developer = _developerRepository.GetDeveloper(username);
+
+                if (developer != null)
+                {
+                    return Ok(developer);
+                }
+
+
+                developer = await _gitHubUserService.GetUser(username);
+
+                if (developer != null)
+                {
+                    _developerRepository.Add(developer);
+                    return Ok(developer);
+                }
+
+                return NotFound();
             }
-
-
-            developer = await _gitHubUserService.GetUser(username);
-
-            if (developer != null)
+            catch (Exception ex)
             {
-                _developerRepository.Add(developer);
-                return Ok(developer);
+                return InternalServerError(ex);
             }
-
-            return NotFound();
         }
 
         [Route("api/developers/fromGithubOrganization/{organization:alpha}")]
         public async Task<IHttpActionResult> GetFromGitHubOrganization(string organization)
         {
-            var users = await _gitHubUserService.GetOrganizationUsers(organization);
+            try
+            {
+                var users = await _gitHubUserService.GetOrganizationUsers(organization);
 
-            return Ok(users);
+                MergeDevelopersDataSource(users);
+
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
-        // POST: api/Developer
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT: api/Developer/5
-        public void Put(int id, [FromBody]string value)
+        // private
+        private void MergeDevelopersDataSource(IEnumerable<Developer> developers)
         {
-        }
-
-        // DELETE: api/Developer/5
-        public void Delete(int id)
-        {
+            foreach (var dev in developers)
+            {
+                var notExists = _developerRepository.GetDeveloper(dev.UserName) == null;
+                if (notExists)
+                {
+                    _developerRepository.Add(dev);
+                }
+            }
         }
     }
 }

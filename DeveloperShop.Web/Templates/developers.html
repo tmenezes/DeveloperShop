@@ -3,9 +3,10 @@
         <h2>Search a developer</h2>
         <form class="form-inline" role="form">
             <div class="form-group">
-                <input type="text" placeholder="GitHub Username" class="form-control" ng-model="developerUsername">
+                <input type="text" placeholder="GitHub Username / Organization" class="form-control" ng-model="searchKey" style="width: 240px">
             </div>
             <button type="submit" class="btn btn-info" ng-click="searchDeveloperOnGithub()">Search on GitHub</button>
+            <button type="submit" class="btn btn-default" ng-click="searchOnGithubByOrganization()">Search by Organization</button>
         </form>
     </div>
     <div class="devs row">
