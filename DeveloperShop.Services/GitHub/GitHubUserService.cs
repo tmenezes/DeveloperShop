@@ -11,7 +11,7 @@ namespace DeveloperShop.Services.GitHub
     public class GitHubUserService : IGitHubUserService
     {
         // "cache" to avoid unecessary requests to users from an organization
-        readonly ConcurrentDictionary<string, IEnumerable<Developer>> _loadedOrganizations = new ConcurrentDictionary<string, IEnumerable<Developer>>();
+        static readonly ConcurrentDictionary<string, IEnumerable<Developer>> LoadedOrganizations = new ConcurrentDictionary<string, IEnumerable<Developer>>();
 
         // publics
         public async Task<Developer> GetUser(string userName)
@@ -38,7 +38,7 @@ namespace DeveloperShop.Services.GitHub
             try
             {
                 if (IsOrganizationLoaded(organizationName))
-                    return _loadedOrganizations[organizationName];
+                    return LoadedOrganizations[organizationName];
 
                 var github = GetGitHubClient();
                 var users = await github.Organization.Member.GetAll(organizationName);
@@ -48,7 +48,7 @@ namespace DeveloperShop.Services.GitHub
                                       .Select(u => ParseToDeveloper(github.User.Get(u.Login).Result))
                                       .ToList();
 
-                _loadedOrganizations.AddOrUpdate(organizationName, developers, (s, devs) => developers);
+                LoadedOrganizations.AddOrUpdate(organizationName, developers, (s, devs) => developers);
                 return developers;
             }
             catch (Exception)
@@ -87,7 +87,7 @@ namespace DeveloperShop.Services.GitHub
 
         private bool IsOrganizationLoaded(string organizationName)
         {
-            return _loadedOrganizations.ContainsKey(organizationName);
+            return LoadedOrganizations.ContainsKey(organizationName);
         }
     }
 }
