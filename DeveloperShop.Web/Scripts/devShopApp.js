@@ -2,7 +2,7 @@
 var devShopApp = angular.module('devShopApp', ['ngRoute', 'ngResource']);
 
 // define Routing for app
-devShopApp.config(function ($routeProvider) {
+devShopApp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
       when('/', {
           templateUrl: 'Templates/developers.html',
@@ -23,11 +23,10 @@ devShopApp.config(function ($routeProvider) {
       otherwise({
           redirectTo: '/'
       });
-});
+}]);
 
 // factories
-devShopApp.factory('AppApi', function ($resource) {
-
+devShopApp.factory('AppApi', ['$resource', function ($resource) {
     return {
         Developers: $resource('api/developers/:id', { id: '@id' },
         {
@@ -48,11 +47,11 @@ devShopApp.factory('AppApi', function ($resource) {
             }
         })
     };
-});
+}]);
 
 
 // controllers
-devShopApp.controller('DevelopersController', function ($scope, $resource, AppApi, $location) {
+devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', '$location', function ($scope, $resource, AppApi, $location) {
 
     $scope.developers = AppApi.Developers.query();
     $scope.developerUsername = "";
@@ -80,9 +79,9 @@ devShopApp.controller('DevelopersController', function ($scope, $resource, AppAp
         return false;
     }
 
-});
+}]);
 
-devShopApp.controller('CartController', function ($scope, $resource, $routeParams, $location, AppApi) {
+devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', '$location', 'AppApi', function ($scope, $resource, $routeParams, $location, AppApi) {
 
     $scope.devId = $routeParams.devId;
 
@@ -171,4 +170,4 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
 
         return false;
     }
-});
+}]);
