@@ -9,10 +9,7 @@ namespace DeveloperShop.Domain
         private readonly IList<CartItem> _items;
 
         public string Id { get; set; }
-        public IEnumerable<CartItem> Items
-        {
-            get { return _items; }
-        }
+        public IEnumerable<CartItem> Items => _items;
         public DiscountCoupon Coupon { get; set; }
         public decimal TotalPrice { get; set; }
         public decimal Discount { get; set; }
@@ -27,9 +24,15 @@ namespace DeveloperShop.Domain
 
         public void AddItem(Developer developer, int amountOfHours)
         {
-            var alreadyAdded = _items.Any(d => d.Developer.UserName == developer.UserName);
+            if (developer == null)
+                throw Error.DeveloperNull();
+
+            if (amountOfHours <= 0)
+                throw Error.InvalidAmountOfHours();
+
+            var alreadyAdded = _items.Any(d => d.Developer.Id == developer.Id);
             if (alreadyAdded)
-                return;
+                throw Error.ItemAlreadyAddedInCart();
 
             _items.Add(new CartItem(developer, amountOfHours));
             UpdateCartPrices();
@@ -37,9 +40,12 @@ namespace DeveloperShop.Domain
 
         public void RemoveItem(Developer developer)
         {
-            var developerAdded = _items.FirstOrDefault(d => d.Developer.UserName == developer.UserName);
+            if (developer == null)
+                throw Error.DeveloperNull();
+
+            var developerAdded = _items.FirstOrDefault(d => d.Developer.Id == developer.Id);
             if (developerAdded == null)
-                return;
+                throw Error.ItemAlreadyAddedInCart();
 
             _items.Remove(developerAdded);
             UpdateCartPrices();
