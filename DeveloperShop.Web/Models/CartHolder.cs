@@ -14,8 +14,8 @@ namespace DeveloperShop.Web.Models
 
         public static void DeleteCart(string id)
         {
-            Cart cart;
-            _carts.TryRemove(id, out cart);
+            Cart oldCart;
+            _carts.TryRemove(id, out oldCart);
         }
     }
 }

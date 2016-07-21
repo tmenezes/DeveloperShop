@@ -91,5 +91,15 @@ namespace DeveloperShop.Web.Controllers
             cart.ApplyDiscount(coupon);
             return Ok(cart);
         }
+
+        [HttpGet]
+        [Route("api/cart/finishOrder")]
+        public IHttpActionResult FinishOrder()
+        {
+            //TODO: could be improved to call Orders Service, then call the Promotion Service and then create and save a order
+            CartHolder.DeleteCart(USER_KEY);
+
+            return Ok();
+        }
     }
 }

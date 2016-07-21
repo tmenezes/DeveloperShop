@@ -16,6 +16,10 @@ devShopApp.config(function ($routeProvider) {
           templateUrl: 'Templates/addingToCart.html',
           controller: 'CartController'
       }).
+      when('/cart/orderFinished', {
+          templateUrl: 'Templates/orderFinished.html',
+          controller: 'CartController'
+      }).
       otherwise({
           redirectTo: '/'
       });
@@ -37,6 +41,10 @@ devShopApp.factory('AppApi', function ($resource) {
             applyDiscount: {
                 url: 'api/cart/applyDiscount/:coupon',
                 method: 'PUT'
+            },
+            finishOrder: {
+                url: 'api/cart/finishOrder',
+                method: 'GET'
             }
         })
     };
@@ -128,6 +136,15 @@ devShopApp.controller('CartController', function ($scope, $resource, $routeParam
             updateCouponVariables();
         });
 
+        return false;
+    }
+
+    $scope.finishTheOrder = function () {
+
+        AppApi.Cart.finishOrder()
+            .$promise.then(function (response) {
+                $location.path("/cart/orderFinished");
+            });
         return false;
     }
 

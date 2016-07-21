@@ -65,6 +65,10 @@
                             <td>Total</td>
                             <td><strong>{{cart.CartPrice | currency}}</strong></td>
                         </tr>
+                        <tr ng-show="hasItems">
+                            <td>&nbsp;</td>
+                            <td><button class="btn btn-success" ng-click="finishTheOrder()">Finish the order!</button></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
