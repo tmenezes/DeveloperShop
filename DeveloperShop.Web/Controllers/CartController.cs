@@ -56,9 +56,9 @@ namespace DeveloperShop.Web.Controllers
             }
 
             cart.AddItem(developer, cartItemRequestData.AmountOfHours);
-            var itemUrl = $"api/cart/{developer.Id}";
+            var createdUrl = $"api/cart/{developer.Id}";
 
-            return Created(itemUrl, cart);
+            return Created(createdUrl, cart);
         }
 
         // DELETE: api/Cart/

@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeveloperShop.Web", "DeveloperShop.Web\DeveloperShop.Web.csproj", "{CB867E52-A8E3-49A1-8E9D-F5442DF039C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeveloperShop.Domain", "DeveloperShop.Domain\DeveloperShop.Domain.csproj", "{341AFAAB-D454-44A2-AC04-8A5860A89E72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeveloperShop.Services", "DeveloperShop.Services\DeveloperShop.Services.csproj", "{BABC4158-0B27-4D66-89FF-9B5608B2BC47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeveloperShop.Tests", "DeveloperShop.Tests\DeveloperShop.Tests.csproj", "{77DAB9A5-E6A9-428B-8CCC-F5A5326C7E25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BABC4158-0B27-4D66-89FF-9B5608B2BC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BABC4158-0B27-4D66-89FF-9B5608B2BC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BABC4158-0B27-4D66-89FF-9B5608B2BC47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77DAB9A5-E6A9-428B-8CCC-F5A5326C7E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77DAB9A5-E6A9-428B-8CCC-F5A5326C7E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77DAB9A5-E6A9-428B-8CCC-F5A5326C7E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77DAB9A5-E6A9-428B-8CCC-F5A5326C7E25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
