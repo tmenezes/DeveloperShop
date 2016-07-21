@@ -80,6 +80,14 @@ namespace DeveloperShop.Web.Controllers
             return NotFound();
         }
 
+        [Route("api/developers/fromGithubOrganization/{organization:alpha}")]
+        public async Task<IHttpActionResult> GetFromGitHubOrganization(string organization)
+        {
+            var users = await _gitHubUserService.GetOrganizationUsers(organization);
+
+            return Ok(users);
+        }
+
         // POST: api/Developer
         public void Post([FromBody]string value)
         {

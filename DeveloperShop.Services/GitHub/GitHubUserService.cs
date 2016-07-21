@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DeveloperShop.Domain;
 using Octokit;
@@ -11,7 +13,7 @@ namespace DeveloperShop.Services.GitHub
         {
             try
             {
-                var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
+                var github = GetGitHubClient();
                 var user = await github.User.Get(userName);
 
                 return ParseToDeveloper(user);
@@ -20,6 +22,29 @@ namespace DeveloperShop.Services.GitHub
             {
                 return null;
             }
+        }
+
+        public async Task<IEnumerable<Developer>> GetOrganizationUsers(string organizationName)
+        {
+            try
+            {
+                var github = GetGitHubClient();
+                var users = await github.Organization.Member.GetAll(organizationName);
+
+                var developers = users.Select(u => ParseToDeveloper(u)).ToList();
+
+                return developers;
+            }
+            catch (Exception)
+            {
+                return new List<Developer>();
+            }
+        }
+
+
+        private IGitHubClient GetGitHubClient()
+        {
+            return new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
         }
 
         private Developer ParseToDeveloper(User user)
