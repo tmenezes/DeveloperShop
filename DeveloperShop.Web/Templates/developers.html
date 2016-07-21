@@ -27,13 +27,14 @@
                     <td>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="http://github.com/" target="_blank">
-                                    <img src="{{dev.ImageUrl}}" width="48" height="48" alt="{{user.UserName}}" data-toggle="tooltip" data-placement="left" title="{{dev.UserName}}" />
+                                <a href="{{'http://github.com/' + dev.UserName }}" target="_blank">
+                                    <img src="{{dev.ImageUrl}}" width="48" height="48" alt="{{dev.UserName}}" data-toggle="tooltip" data-placement="left" title="{{dev.UserName}}" />
                                 </a>
                             </div>
                             <div class="media-body media-jogador">
                                 <span class="text-muted">{{dev.UserName}}</span><br />
-                                <a href="#"><strong>{{dev.FullName}}</strong></a>
+                                <a href="{{'http://github.com/' + dev.UserName }}"><strong>{{dev.FullName}}</strong></a>
+                                <a href="{{'http://github.com/' + dev.UserName }}" ng-show="{{ dev.FullName === null }}"><strong>{{dev.UserName}}</strong></a>
                             </div>
                         </div>
                     </td>

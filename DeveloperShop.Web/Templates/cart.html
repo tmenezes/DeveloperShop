@@ -16,13 +16,14 @@
                     <td>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="http://github.com/" target="_blank">
+                                <a href="{{'http://github.com/' + item.Developer.UserName }}" target="_blank">
                                     <img src="{{item.Developer.ImageUrl}}" width="48" height="48" alt="{{user.UserName}}" data-toggle="tooltip" data-placement="left" title="{{item.Developer.UserName}}" />
                                 </a>
                             </div>
                             <div class="media-body media-jogador">
                                 <span class="text-muted">{{item.Developer.UserName}}</span><br />
-                                <a href="#"><strong>{{item.Developer.FullName}}</strong></a>
+                                <a href="{{'http://github.com/' + item.Developer.UserName }}"><strong>{{item.Developer.FullName}}</strong></a>
+                                <a href="{{'http://github.com/' + item.Developer.UserName }}" ng-show="{{ item.Developer.FullName === null }}"><strong>{{item.Developer.UserName}}</strong></a>
                             </div>
                         </div>
                     </td>
@@ -35,7 +36,7 @@
         </table>
     </div>
     <div class="totalizer row" style="padding-top: 40px">
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-sm-offset-6 text-right">
             <div class="row">
                 <table class="table">
                     <tbody>
@@ -46,9 +47,9 @@
                             <td>
                                 <form class="form-inline" role="form">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="discount" placeholder="type your coupun here" ng-model="coupon" />
-                                        <button class="btn btn-primary" ng-click="applyDiscount()">Apply Discount</button>
-                                        <div class="text-danger" ng-show="invalidCoupon">Invalid coupon</div>
+                                        <input type="text" class="form-control input-sm" name="discount" placeholder="type your coupun here" ng-model="coupon" />
+                                        <button class="btn btn-primary btn-sm" ng-click="applyDiscount()">Apply Discount</button>
+                                        <div class="text-danger text-left" ng-show="invalidCoupon">Invalid coupon</div>
                                     </div>
                                 </form>
                             </td>
@@ -59,7 +60,7 @@
                         </tr>
                         <tr class="total" ng-show="hasDiscount">
                             <td>Discount</td>
-                            <td><strong class="text-success">{{cart.Discount | currency}} - {{cart.Coupon.Key}}: {{cart.Coupon.Description}}</strong></td>
+                            <td class="text-success">{{cart.Coupon.Key}}: {{cart.Coupon.Description}} - <strong>{{cart.Discount | currency}}</strong></td>
                         </tr>
                         <tr class="total">
                             <td>Total</td>

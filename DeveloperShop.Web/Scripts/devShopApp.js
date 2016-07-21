@@ -69,8 +69,7 @@ devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', 
         var resourceDev = AppApi.Developers.getFromGithub({ query: $scope.searchKey });
 
         resourceDev.$promise.then(function (response) {
-            var dev = response.data;
-            $scope.developers.push(dev);
+            $scope.developers.push(resourceDev);
             $scope.searchKey = "";
         }, function (failureResponse) {
             if (failureResponse.status === 500) {
@@ -89,11 +88,9 @@ devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', 
 
         var resource = AppApi.Developers.getFromGithubOrganization({ query: $scope.searchKey });
         resource.$promise.then(function (response) {
-            console.log(resource);
-            console.log(response);
-            //alert("Developer(s) found: " + response.Items.length);
             $scope.developers = AppApi.Developers.query(); // update developers list
             $scope.searchKey = "";
+            alert("Developer(s) found: " + response.length);
         });
 
         return false;
