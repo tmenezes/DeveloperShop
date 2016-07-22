@@ -1,7 +1,7 @@
-﻿// define an angular module for our app
+﻿// define angular module
 var devShopApp = angular.module('devShopApp', ['ngRoute', 'ngResource']);
 
-// define Routing for app
+// routes
 devShopApp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
       when('/', {
@@ -54,6 +54,15 @@ devShopApp.factory('AppApi', ['$resource', function ($resource) {
     };
 }]);
 
+// filters
+devShopApp.filter('positive', function () {
+    return function (input) {
+        if (!input)
+            return 0;
+        return Math.abs(input);
+    };
+});
+
 
 // controllers
 devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', '$location', function ($scope, $resource, AppApi, $location) {
@@ -96,8 +105,16 @@ devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', 
         return false;
     }
 
+    $scope.showDetails = function (developerId) {
+
+        $scope.devDetail = AppApi.Developers.get({ id: developerId });
+        $("#popupDevDetails").modal("show");
+        return false;
+    }
+
     $scope.addNewItem = function (developerId) {
 
+        $("#popupDevDetails").removeClass("fade").modal("hide").addClass("fade"); // bug when trying to hide modal
         $location.path("/cart/addingItem/" + developerId);
         return false;
     }
@@ -189,6 +206,14 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
             }
             else
                 $location.path("/");
+        }, function (failureResponse) {
+            if (failureResponse.status === 500) {
+                alert("Internal Server Error. " + failureResponse.data.ExceptionMessage);
+            } else if (failureResponse.status === 409) {
+                alert("Error: Item already added in cart.");
+            } else {
+                alert("Error: " + failureResponse.message);
+            }
         });
 
         return false;

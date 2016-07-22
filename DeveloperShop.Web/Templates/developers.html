@@ -27,14 +27,14 @@
                     <td>
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="{{'http://github.com/' + dev.UserName }}" target="_blank">
+                                <a href="#/" ng-click="showDetails(dev.Id)">
                                     <img src="{{dev.ImageUrl}}" width="48" height="48" alt="{{dev.UserName}}" data-toggle="tooltip" data-placement="left" title="{{dev.UserName}}" />
                                 </a>
                             </div>
                             <div class="media-body media-jogador">
                                 <span class="text-muted">{{dev.UserName}}</span><br />
-                                <a href="{{'http://github.com/' + dev.UserName }}"><strong>{{dev.FullName}}</strong></a>
-                                <a href="{{'http://github.com/' + dev.UserName }}" ng-show="{{ dev.FullName === null }}"><strong>{{dev.UserName}}</strong></a>
+                                <a href="#/" ng-click="showDetails(dev.Id)"><strong>{{dev.FullName}}</strong></a>
+                                <a href="#/" ng-click="showDetails(dev.Id)" ng-show="{{ dev.FullName === null }}"><strong>{{dev.UserName}}</strong></a>
                             </div>
                         </div>
                     </td>
@@ -46,5 +46,52 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="modal fade" id="popupDevDetails">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Developer Details</h4>
+                </div>
+                <div class="modal-body" id="popupDetailsBody">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <img src="{{devDetail.ImageUrl}}" class="img-circle" width="120" height="120" alt="{{devDetail.UserName}}" title="{{devDetail.UserName}}" />
+                            </div>
+                            <h3 class="text-center">{{devDetail.FullName}}</h3>
+                            <h6 class="text-center">{{devDetail.UserName}}</h6>
+                            <br />
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Repos</td>
+                                        <td>{{devDetail.Repositories}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Followers</td>
+                                        <td>{{devDetail.Followers}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Following</td>
+                                        <td>{{devDetail.Following}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Price</td>
+                                        <td><strong>{{devDetail.Price | currency}}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!--<a class="btn btn-primary" href="#/">Back</a>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{'http://github.com/' + devDetail.UserName }}" target="_blank" class="btn btn-info">See on GitHub</a>
+                    <button class="btn btn-success pull-right" ng-click="addNewItem(devDetail.Id)">Add to cart</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

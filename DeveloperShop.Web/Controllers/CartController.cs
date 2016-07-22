@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Http;
 using DeveloperShop.Domain;
+using DeveloperShop.Domain.ErrorHandling;
 using DeveloperShop.Domain.Repository;
 using DeveloperShop.Web.Models;
 
@@ -55,9 +57,12 @@ namespace DeveloperShop.Web.Controllers
                 return BadRequest("Developer does not exists");
             }
 
-            cart.AddItem(developer, cartItemRequestData.AmountOfHours);
-            var createdUrl = $"api/cart/{developer.Id}";
+            IHttpActionResult httpResult;
+            bool success = TryDomainOperation(() => cart.AddItem(developer, cartItemRequestData.AmountOfHours), out httpResult);
+            if (!success)
+                return httpResult;
 
+            var createdUrl = $"api/cart/{developer.Id}";
             return Created(createdUrl, cart);
         }
 
@@ -72,7 +77,11 @@ namespace DeveloperShop.Web.Controllers
                 return BadRequest("Developer was not added on the cart");
             }
 
-            cart.RemoveItem(developer);
+            IHttpActionResult httpResult;
+            bool success = TryDomainOperation(() => cart.RemoveItem(developer), out httpResult);
+            if (!success)
+                return httpResult;
+
             return Ok(cart);
         }
 
@@ -100,6 +109,45 @@ namespace DeveloperShop.Web.Controllers
             CartHolder.DeleteCart(USER_KEY);
 
             return Ok();
+        }
+
+
+        private bool TryDomainOperation(Action act, out IHttpActionResult httpActionResult)
+        {
+            try
+            {
+                act();
+                httpActionResult = Ok();
+                return true;
+            }
+            catch (DeveloperShopException ex)
+            {
+                httpActionResult = GetHttpResultFromDomainException(ex);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                httpActionResult = InternalServerError(ex);
+                return false;
+            }
+        }
+
+        private IHttpActionResult GetHttpResultFromDomainException(DeveloperShopException ex)
+        {
+            switch (ex.ErrorType)
+            {
+                case ErrorType.DeveloperNull:
+                case ErrorType.InvalidAmountOfHours:
+                case ErrorType.CouponNull:
+                case ErrorType.ItemNotPresentInCart:
+                    return BadRequest(ex.Message);
+
+                case ErrorType.ItemAlreadyAdded:
+                    return Conflict();
+
+                default:
+                    return InternalServerError(ex);
+            }
         }
     }
 }
