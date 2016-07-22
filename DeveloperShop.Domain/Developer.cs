@@ -28,10 +28,10 @@ namespace DeveloperShop.Domain
         public void CalculatePrice()
         {
             var experienceYears = (DateTime.Now - StartProgrammingDate).TotalDays / 365;
-            var experienceFactor = (decimal)(experienceYears / 10) + 1;
+            var experienceFactor = (decimal)(experienceYears / 100) + 1;
 
             var price = (Repositories * 0.8m) + (Followers * 0.1m) + (Following * 0.05m);
-            price = price * experienceFactor; // adjuste price according year of experience 
+            price = price * experienceFactor; // adjuste price according years of experience 
 
             Price = Math.Round(price, 2);
         }
