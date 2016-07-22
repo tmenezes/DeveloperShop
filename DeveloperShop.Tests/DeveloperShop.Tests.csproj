@@ -54,6 +54,7 @@
     <Compile Include="Domain\CartTests\When_remove_item_from_cart.cs" />
     <Compile Include="Domain\CartTests\When_apply_a_discount_coupon.cs" />
     <Compile Include="Domain\CartTests\When_add_item_to_cart.cs" />
+    <Compile Include="Domain\DeveloperTests\When_calculate_your_own_price.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StubFactory.cs" />
   </ItemGroup>
