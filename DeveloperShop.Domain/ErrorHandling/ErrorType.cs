@@ -6,5 +6,7 @@
         DeveloperNull,
         InvalidAmountOfHours,
         ItemAlreadyAdded,
+        ItemNotPresentInCart,
+        CouponNull,
     }
 }

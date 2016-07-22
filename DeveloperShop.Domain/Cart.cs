@@ -45,7 +45,7 @@ namespace DeveloperShop.Domain
 
             var developerAdded = _items.FirstOrDefault(d => d.Developer.Id == developer.Id);
             if (developerAdded == null)
-                throw Error.ItemAlreadyAddedInCart();
+                throw Error.ItemNotPresentInCart();
 
             _items.Remove(developerAdded);
             UpdateCartPrices();
@@ -53,6 +53,9 @@ namespace DeveloperShop.Domain
 
         public void ApplyDiscount(DiscountCoupon coupon)
         {
+            if (coupon == null)
+                throw Error.CouponNull();
+
             var actualCouponPercentage = this.Coupon?.DiscountPercentage ?? 0d;
 
             if (coupon.DiscountPercentage > actualCouponPercentage)

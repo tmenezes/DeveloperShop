@@ -18,5 +18,15 @@ namespace DeveloperShop.Domain
         {
             return new DeveloperShopException("The item was already added in the cart", ErrorType.ItemAlreadyAdded);
         }
+
+        public static DeveloperShopException ItemNotPresentInCart()
+        {
+            return new DeveloperShopException("The item was not added in the cart", ErrorType.ItemNotPresentInCart);
+        }
+
+        public static DeveloperShopException CouponNull()
+        {
+            return new DeveloperShopException("Discount Coupon should not be null", ErrorType.CouponNull);
+        }
     }
 }

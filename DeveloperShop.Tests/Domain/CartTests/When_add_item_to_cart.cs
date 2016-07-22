@@ -142,7 +142,7 @@ namespace DeveloperShop.Tests.Domain.CartTests
         public class Given_same_item_twice : When_add_item_to_cart
         {
             [Test]
-            public void Itens_total_price_should_be_calculated_correctly()
+            public void Should_thrown_an_exception()
             {
                 var cart = new Cart();
                 var hours = 8;

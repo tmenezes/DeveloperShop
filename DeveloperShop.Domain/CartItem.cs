@@ -2,8 +2,8 @@
 {
     public class CartItem
     {
-        public Developer Developer { get; set; }
-        public int AmountOfHours { get; set; }
+        public Developer Developer { get; }
+        public int AmountOfHours { get; }
         public decimal TotalPrice => (Developer?.Price ?? 0) * AmountOfHours;
 
 

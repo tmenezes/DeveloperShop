@@ -7,7 +7,7 @@ namespace DeveloperShop.Tests
     {
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);
 
-
+        // developers
         public static Developer GetDeveloper()
         {
             return GetDeveloper(150);
@@ -23,6 +23,40 @@ namespace DeveloperShop.Tests
                 Following = 10,
                 Price = price
             };
+        }
+
+        // carts
+        public static Cart GetCart(Developer dev, int hours)
+        {
+            var cart = new Cart();
+            cart.AddItem(dev, hours);
+            return cart;
+        }
+
+        public static Cart GetCartWithItems(int itemsQuantity)
+        {
+            var cart = new Cart();
+            for (var i = 0; i < itemsQuantity; i++)
+            {
+                cart.AddItem(GetDeveloper(GetRandonDecimalNumber()), Random.Next());
+            }
+            return cart;
+        }
+
+        public static DiscountCoupon GetCoupon(double discoutPercentage)
+        {
+            return new DiscountCoupon("SHIPIT")
+            {
+                Description = "A 10% discount coupon",
+                DiscountPercentage = discoutPercentage,
+            };
+        }
+
+
+        // private
+        private static decimal GetRandonDecimalNumber()
+        {
+            return (decimal)Random.NextDouble() * Random.Next();
         }
     }
 }
