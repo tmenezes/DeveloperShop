@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DeveloperShop.Domain.Repository
@@ -14,20 +15,21 @@ namespace DeveloperShop.Domain.Repository
                 new Developer(1, "_tmenezes_")
                 {
                     ImageUrl = "https://avatars.githubusercontent.com/u/91613?v=3",
-                    Followers = 10,
-                    Commits = 200,
+                    Followers = 20,
                     Repositories = 5,
-                    Price = 150
+                    Following = 10,
+                    StartProgrammingDate = DateTime.Now.AddYears(-5)
                 },
                 new Developer(2, "fulano")
                 {
                     ImageUrl = "https://avatars.githubusercontent.com/u/91613?v=3",
-                    Followers = 50,
-                    Commits = 999999999,
+                    Followers = 200,
                     Repositories = 50,
-                    Price = 999
+                    Following = 5,
+                    StartProgrammingDate = DateTime.Now.AddYears(-10)
                 }
             };
+            _developers.ToList().ForEach(dev => dev.CalculatePrice());
         }
 
 

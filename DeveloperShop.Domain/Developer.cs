@@ -11,15 +11,12 @@ namespace DeveloperShop.Domain
         public decimal Price { get; set; }
         public int Repositories { get; set; }
         public int Followers { get; set; }
-        public int Stars { get; set; }
         public int Following { get; set; }
-        public int Commits { get; set; }
         public DateTime StartProgrammingDate { get; set; }
 
 
         public Developer()
         {
-
         }
 
         public Developer(int id, string userName)
@@ -33,8 +30,9 @@ namespace DeveloperShop.Domain
             var experienceYears = (DateTime.Now - StartProgrammingDate).TotalDays / 365;
             var experienceFactor = (decimal)(experienceYears / 10) + 1;
 
+            var price = (Repositories * 0.8m) + (Followers * 0.1m) + (Following * 0.05m);
+            price = price * experienceFactor; // adjuste price according year of experience 
 
-            var price = (Repositories * experienceFactor) + (Followers * 0.1m) + (Following * 0.05m);
             Price = Math.Round(price, 2);
         }
     }

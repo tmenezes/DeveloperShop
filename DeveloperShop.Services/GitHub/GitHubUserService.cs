@@ -75,9 +75,7 @@ namespace DeveloperShop.Services.GitHub
                 ImageUrl = user.AvatarUrl,
                 Repositories = user.OwnedPrivateRepos + user.PublicRepos,
                 Followers = user.Followers,
-                Stars = user.Collaborators,
                 Following = user.Following,
-                Commits = user.Collaborators,
                 StartProgrammingDate = user.CreatedAt.DateTime,
             };
             developer.CalculatePrice();
