@@ -1,5 +1,5 @@
 ﻿// define angular module
-var devShopApp = angular.module('devShopApp', ['ngRoute', 'ngResource']);
+var devShopApp = angular.module('devShopApp', ['ngRoute', 'ngResource', 'ngCookies']);
 
 // routes
 devShopApp.config(['$routeProvider', function ($routeProvider) {
@@ -54,18 +54,9 @@ devShopApp.factory('AppApi', ['$resource', function ($resource) {
     };
 }]);
 
-// filters
-devShopApp.filter('positive', function () {
-    return function (input) {
-        if (!input)
-            return 0;
-        return Math.abs(input);
-    };
-});
-
 
 // controllers
-devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', '$location', function ($scope, $resource, AppApi, $location) {
+devShopApp.controller('DevelopersController', ['$scope', '$resource', '$cookies', '$location', 'AppApi', function ($scope, $resource, $cookies, $location, AppApi) {
 
     $scope.developers = AppApi.Developers.query();
     $scope.searchKey = "";
@@ -114,14 +105,14 @@ devShopApp.controller('DevelopersController', ['$scope', '$resource', 'AppApi', 
 
     $scope.addNewItem = function (developerId) {
 
-        $("#popupDevDetails").removeClass("fade").modal("hide").addClass("fade"); // bug when trying to hide modal
+        $("#popupDevDetails").removeClass("fade").modal("hide").addClass("fade"); // bug when trying to hide bootstrap modal, had to remove fase class manually
         $location.path("/cart/addingItem/" + developerId);
         return false;
     }
 
 }]);
 
-devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', '$location', 'AppApi', function ($scope, $resource, $routeParams, $location, AppApi) {
+devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', '$cookies', '$location', 'AppApi', function ($scope, $resource, $routeParams, $cookies, $location, AppApi) {
 
     $scope.devId = $routeParams.devId;
 
@@ -130,7 +121,7 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
         $scope.hours = 8;
     }
     else {
-        $scope.cart = AppApi.Cart.get();
+        $scope.cart = getCartFromApi();
         $scope.cart.$promise.then(function (cart) {
             $scope.hasItems = cart.Items.length > 0;
             updateCouponVariables();
@@ -187,6 +178,12 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
         return false;
     }
 
+
+    function getCartFromApi() {
+        var cart = AppApi.Cart.get();
+        $cookies.put('cartID', cart.Id);
+        return cart;
+    }
 
     var updateCouponVariables = function () {
         $scope.hasDiscount = $scope.cart.Coupon != null && $scope.hasItems;

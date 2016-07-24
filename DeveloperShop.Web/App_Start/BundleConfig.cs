@@ -23,6 +23,7 @@ namespace DeveloperShop.Web
                       "~/Scripts/angular.js",
                       "~/Scripts/angular-route.js",
                       "~/Scripts/angular-resource.js",
+                      "~/Scripts/angular-cookies.js",
                       "~/Scripts/devShopApp.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
