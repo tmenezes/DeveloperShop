@@ -2,7 +2,7 @@
 var devShopApp = angular.module('devShopApp', ['ngRoute', 'ngResource', 'ngCookies']);
 
 // routes
-devShopApp.config(['$routeProvider', function ($routeProvider) {
+devShopApp.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider.
       when('/', {
           templateUrl: 'Templates/developers.html',
@@ -23,6 +23,8 @@ devShopApp.config(['$routeProvider', function ($routeProvider) {
       otherwise({
           redirectTo: '/'
       });
+
+    $httpProvider.interceptors.push('CartIdInterceptor');
 }]);
 
 // factories
@@ -48,9 +50,25 @@ devShopApp.factory('AppApi', ['$resource', function ($resource) {
             },
             finishOrder: {
                 url: 'api/cart/finishOrder',
-                method: 'GET'
+                method: 'POST'
             }
         })
+    };
+}]);
+devShopApp.factory('CartIdInterceptor', ['$q', '$cookies', function ($q, $cookies) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            var cartId = $cookies.get('cartID') ? $cookies.get('cartID') : ""; console.log("CartIdInterceptor-cartid: " + cartId);
+            config.headers['auth_cart_id'] = cartId;
+
+            return config;
+        },
+        response: function (response) {
+            console.log("CartIdInterceptor-response: " + response.status + "-" + response.data);
+            console.log(response);
+            return response || $q.when(response);
+        }
     };
 }]);
 
@@ -121,9 +139,10 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
         $scope.hours = 8;
     }
     else {
-        $scope.cart = getCartFromApi();
+        $scope.cart = AppApi.Cart.get();
         $scope.cart.$promise.then(function (cart) {
-            $scope.hasItems = cart.Items.length > 0;
+            $cookies.put('cartID', cart.Id);
+            $scope.hasItems = cart.Items != null && cart.Items.length > 0;
             updateCouponVariables();
         });
     }
@@ -172,18 +191,13 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
     $scope.finishTheOrder = function () {
 
         AppApi.Cart.finishOrder()
-            .$promise.then(function (response) {
+            .$promise.then(function (cart) {
+                $cookies.remove('cartID', cart.Id);
                 $location.path("/cart/orderFinished");
             });
         return false;
     }
 
-
-    function getCartFromApi() {
-        var cart = AppApi.Cart.get();
-        $cookies.put('cartID', cart.Id);
-        return cart;
-    }
 
     var updateCouponVariables = function () {
         $scope.hasDiscount = $scope.cart.Coupon != null && $scope.hasItems;
@@ -193,8 +207,9 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
     var navigateAfterCartOperation = function (resource) {
 
         resource.$promise.then(function (cart) {
+            $cookies.put('cartID', cart.Id);
 
-            var hasItems = cart != null && cart.Items.length > 0;
+            var hasItems = cart.Items != null && cart.Items.length > 0;
             $scope.hasItems = hasItems;
 
             if (hasItems) {

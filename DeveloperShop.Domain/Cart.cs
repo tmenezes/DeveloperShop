@@ -6,6 +6,7 @@ namespace DeveloperShop.Domain
 {
     public class Cart
     {
+        private static readonly Random Random = new Random(DateTime.Now.Millisecond);
         private readonly IList<CartItem> _items;
 
         public string Id { get; set; }
@@ -17,7 +18,7 @@ namespace DeveloperShop.Domain
 
         public Cart()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Random.Next().ToString();
             _items = new List<CartItem>();
         }
 

@@ -13,8 +13,8 @@ namespace DeveloperShop.Web.Controllers
         {
             get
             {
-                return Request.Headers.Contains("devShopCartId")
-                    ? Request.Headers.GetValues("devShopCartId").First()
+                return Request.Headers.Contains("auth_cart_id")
+                    ? Request.Headers.GetValues("auth_cart_id").First()
                     : "new key";
             }
         }

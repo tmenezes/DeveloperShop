@@ -98,7 +98,7 @@ namespace DeveloperShop.Web.Controllers
             return Ok(cart);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/cart/finishOrder")]
         public IHttpActionResult FinishOrder()
         {
