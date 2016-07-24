@@ -21,3 +21,6 @@ textarea {
     vertical-align: middle;
     float: none;
 }
+.hand {
+    cursor: pointer;
+}

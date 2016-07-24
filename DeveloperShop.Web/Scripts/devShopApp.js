@@ -196,6 +196,13 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
         return false;
     }
 
+    $scope.showDetails = function (developerId) {
+
+        $scope.devDetail = AppApi.Developers.get({ id: developerId });
+        $("#popupDevDetails").modal("show");
+        return false;
+    }
+
 
     var updateCouponVariables = function () {
         $scope.hasDiscount = $scope.cart.Coupon != null && $scope.hasItems;
@@ -242,13 +249,25 @@ devShopApp.directive('myDevDetails', function () {
         }
     };
 });
-//devShopApp.directive('myDevDetails', function () {
-//    return {
-//        templateUrl: '/Templates/Directives/devDetails.html',
-//        replace: true,
-//        scope: {
-//            devDetail: '=ngModel',
-//            showBackButton: '=showBackButton'
-//        }
-//    };
-//});
+devShopApp.directive('myModalDevDetails', function () {
+    return {
+        templateUrl: '/Templates/Directives/modalDevDetails.html',
+        replace: true,
+        scope: {
+            devDetail: '=ngModel',
+            showAddToCartButton: '=showBuyButton',
+            addToCartButtonClick: '&buyButtonClick',
+            showCloseButton: '=showCloseButton'
+        }
+    };
+});
+devShopApp.directive('myDevMiniView', function () {
+    return {
+        templateUrl: '/Templates/Directives/devMiniView.html',
+        replace: true,
+        scope: {
+            dev: '=ngModel',
+            showDetails: '&'
+        }
+    };
+});

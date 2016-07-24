@@ -1,0 +1,12 @@
+﻿<div class="media">
+    <div class="media-left media-middle">
+        <a ng-click="showDetails()" class="hand">
+            <img src="{{dev.ImageUrl}}" width="48" height="48" alt="{{dev.UserName}}" data-toggle="tooltip" data-placement="left" title="{{dev.UserName}}" />
+        </a>
+    </div>
+    <div class="media-body media-jogador">
+        <span class="text-muted">{{dev.UserName}}</span><br />
+        <a ng-click="showDetails()" class="hand"><strong>{{dev.FullName}}</strong></a>
+        <a ng-click="showDetails()" class="hand" ng-show="{{ dev.FullName === null }}"><strong>{{dev.UserName}}</strong></a>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿<div class="modal fade" id="popupDevDetails">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Developer Details</h4>
+            </div>
+            <div class="modal-body" id="popupDetailsBody">
+                <my-dev-details ng-model="devDetail"></my-dev-details> <!--custom directive-->
+            </div>
+            <div class="modal-footer">
+                <a href="{{'http://github.com/' + devDetail.UserName }}" target="_blank" class="btn btn-info">See on GitHub</a>
+                <button class="btn btn-success pull-right" ng-click="addToCartButtonClick()" ng-show="showAddToCartButton">Add to cart</button>
+                <button class="btn btn-primary pull-right" data-dismiss="modal" ng-show="showCloseButton">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

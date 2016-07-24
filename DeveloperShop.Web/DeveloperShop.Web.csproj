@@ -211,6 +211,8 @@
     <Content Include="Templates\cart.html" />
     <Content Include="Templates\Directives\devDetails.html" />
     <Content Include="Templates\developers.html" />
+    <Content Include="Templates\Directives\devMiniView.html" />
+    <Content Include="Templates\Directives\modalDevDetails.html" />
     <Content Include="Templates\orderFinished.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -25,18 +25,7 @@
             <tbody>
                 <tr class="product" ng-repeat="(key, dev) in developers">
                     <td>
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <a href="#/" ng-click="showDetails(dev.Id)">
-                                    <img src="{{dev.ImageUrl}}" width="48" height="48" alt="{{dev.UserName}}" data-toggle="tooltip" data-placement="left" title="{{dev.UserName}}" />
-                                </a>
-                            </div>
-                            <div class="media-body media-jogador">
-                                <span class="text-muted">{{dev.UserName}}</span><br />
-                                <a href="#/" ng-click="showDetails(dev.Id)"><strong>{{dev.FullName}}</strong></a>
-                                <a href="#/" ng-click="showDetails(dev.Id)" ng-show="{{ dev.FullName === null }}"><strong>{{dev.UserName}}</strong></a>
-                            </div>
-                        </div>
+                        <my-dev-mini-view ng-model="dev" show-details="showDetails(dev.Id)"></my-dev-mini-view> <!--custom directive-->
                     </td>
                     <td>{{dev.Repositories}}</td>
                     <td>{{dev.Followers}}</td>
@@ -47,21 +36,5 @@
             </tbody>
         </table>
     </div>
-    <div class="modal fade" id="popupDevDetails">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Developer Details</h4>
-                </div>
-                <div class="modal-body" id="popupDetailsBody">
-                    <my-dev-details ng-model="devDetail"></my-dev-details> <!--custom directive-->
-                </div>
-                <div class="modal-footer">
-                    <a href="{{'http://github.com/' + devDetail.UserName }}" target="_blank" class="btn btn-info">See on GitHub</a>
-                    <button class="btn btn-success pull-right" ng-click="addNewItem(devDetail.Id)">Add to cart</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <my-modal-dev-details ng-model="devDetail" show-buy-button="true" buy-button-click="addNewItem(devDetail.Id)"></my-modal-dev-details> <!--custom directive-->
 </div>
