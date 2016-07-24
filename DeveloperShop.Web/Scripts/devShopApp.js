@@ -59,14 +59,12 @@ devShopApp.factory('CartIdInterceptor', ['$q', '$cookies', function ($q, $cookie
     return {
         request: function (config) {
             config.headers = config.headers || {};
-            var cartId = $cookies.get('cartID') ? $cookies.get('cartID') : ""; console.log("CartIdInterceptor-cartid: " + cartId);
+            var cartId = $cookies.get('cartID') ? $cookies.get('cartID') : "";
             config.headers['auth_cart_id'] = cartId;
 
             return config;
         },
         response: function (response) {
-            console.log("CartIdInterceptor-response: " + response.status + "-" + response.data);
-            console.log(response);
             return response || $q.when(response);
         }
     };
@@ -231,3 +229,26 @@ devShopApp.controller('CartController', ['$scope', '$resource', '$routeParams', 
         return false;
     }
 }]);
+
+
+// directives
+devShopApp.directive('myDevDetails', function () {
+    return {
+        templateUrl: '/Templates/Directives/devDetails.html',
+        replace: true,
+        scope: {
+            devDetail: '=ngModel',
+            showBackButton: '=showBackButton'
+        }
+    };
+});
+//devShopApp.directive('myDevDetails', function () {
+//    return {
+//        templateUrl: '/Templates/Directives/devDetails.html',
+//        replace: true,
+//        scope: {
+//            devDetail: '=ngModel',
+//            showBackButton: '=showBackButton'
+//        }
+//    };
+//});

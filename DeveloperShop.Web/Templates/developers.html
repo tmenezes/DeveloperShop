@@ -55,37 +55,7 @@
                     <h4 class="modal-title">Developer Details</h4>
                 </div>
                 <div class="modal-body" id="popupDetailsBody">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <img src="{{devDetail.ImageUrl}}" class="img-circle" width="120" height="120" alt="{{devDetail.UserName}}" title="{{devDetail.UserName}}" />
-                            </div>
-                            <h3 class="text-center">{{devDetail.FullName}}</h3>
-                            <h6 class="text-center">{{devDetail.UserName}}</h6>
-                            <br />
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Repos</td>
-                                        <td>{{devDetail.Repositories}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Followers</td>
-                                        <td>{{devDetail.Followers}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Following</td>
-                                        <td>{{devDetail.Following}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Price</td>
-                                        <td><strong>{{devDetail.Price | currency}}</strong></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!--<a class="btn btn-primary" href="#/">Back</a>-->
-                        </div>
-                    </div>
+                    <my-dev-details ng-model="devDetail"></my-dev-details> <!--custom directive-->
                 </div>
                 <div class="modal-footer">
                     <a href="{{'http://github.com/' + devDetail.UserName }}" target="_blank" class="btn btn-info">See on GitHub</a>
