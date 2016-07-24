@@ -8,7 +8,7 @@ using DeveloperShop.Services.GitHub;
 
 namespace DeveloperShop.Web.Controllers
 {
-    public class DevelopersController : ApiController
+    public class DevelopersController : DevShopApiController
     {
         // fields
         private readonly IDeveloperRepository _developerRepository;
