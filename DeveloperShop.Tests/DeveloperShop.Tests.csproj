@@ -76,6 +76,8 @@
   <ItemGroup>
     <Compile Include="AbstractTest.cs" />
     <Compile Include="Api\CartControllerTests\SingleCartController.cs" />
+    <Compile Include="Api\CartControllerTests\When_apply_coupon.cs" />
+    <Compile Include="Api\CartControllerTests\When_remove_item_in_cart.cs" />
     <Compile Include="Api\DeveloperControllerTests\When_get_developer_by_id.cs" />
     <Compile Include="Api\DeveloperControllerTests\When_get_developer_by_name.cs" />
     <Compile Include="Api\DeveloperControllerTests\When_get_developer_from_GitHub.cs" />
