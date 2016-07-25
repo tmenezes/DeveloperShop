@@ -111,7 +111,7 @@ namespace DeveloperShop.Tests.Api.DeveloperControllerTests
             }
 
             [Test]
-            public void Should_not_call_GitHub_service()
+            public void Should_call_GitHub_service()
             {
                 Arrange();
 
@@ -122,7 +122,7 @@ namespace DeveloperShop.Tests.Api.DeveloperControllerTests
         }
 
         [TestFixture]
-        public class Given_inexistent_in_GitHub : When_get_developer_from_GitHub
+        public class Given_inexistent_profile_in_GitHub : When_get_developer_from_GitHub
         {
             protected override void Arrange()
             {
@@ -161,7 +161,7 @@ namespace DeveloperShop.Tests.Api.DeveloperControllerTests
             }
 
             [Test]
-            public void Should_not_call_GitHub_service()
+            public void Should_call_GitHub_service()
             {
                 Arrange();
 
@@ -211,7 +211,7 @@ namespace DeveloperShop.Tests.Api.DeveloperControllerTests
             }
 
             [Test]
-            public void Should_not_call_GitHub_service()
+            public void Should_call_GitHub_service()
             {
                 Arrange();
 
