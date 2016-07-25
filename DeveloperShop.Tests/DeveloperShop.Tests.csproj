@@ -75,10 +75,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AbstractTest.cs" />
+    <Compile Include="Api\CartControllerTests\SingleCartController.cs" />
     <Compile Include="Api\DeveloperControllerTests\When_get_developer_by_id.cs" />
     <Compile Include="Api\DeveloperControllerTests\When_get_developer_by_name.cs" />
     <Compile Include="Api\DeveloperControllerTests\When_get_developer_from_GitHub.cs" />
     <Compile Include="Api\DeveloperControllerTests\When_get_organization_developers_from_GitHub.cs" />
+    <Compile Include="Api\CartControllerTests\When_add_item_in_cart.cs" />
     <Compile Include="Domain\CartTests\When_remove_item_from_cart.cs" />
     <Compile Include="Domain\CartTests\When_apply_a_discount_coupon.cs" />
     <Compile Include="Domain\CartTests\When_add_item_to_cart.cs" />

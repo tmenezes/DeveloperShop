@@ -9,7 +9,7 @@ namespace DeveloperShop.Web.Controllers
 {
     public class DevShopApiController : ApiController
     {
-        protected string UserCartId
+        protected virtual string UserCartId
         {
             get
             {

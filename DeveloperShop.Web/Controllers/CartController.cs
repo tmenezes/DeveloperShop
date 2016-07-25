@@ -103,7 +103,8 @@ namespace DeveloperShop.Web.Controllers
         public IHttpActionResult FinishOrder()
         {
             //TODO: could be improved to call Orders Service, then call the Promotion Service and then create and save a order
-            CartHolder.DeleteCart(UserCartId);
+            var cart = GetCart();
+            CartHolder.DeleteCart(cart.Id);
 
             return Ok();
         }
